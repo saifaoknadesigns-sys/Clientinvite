@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OKNA | Ar. Deeksha & Ar. Harsimran</title>
+  <title>OKNA | Exclusive Invitation</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --black: #000000;
       --white: #ffffff;
-      --gray-deep: #0a0a0a;
       --border: rgba(255,255,255,0.12);
       --transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
     }
@@ -21,7 +20,11 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--black); font-family: 'Inter', sans-serif; color: var(--white); overflow-x: hidden; }
 
-    /* --- ENVELOPE (LUXURY TEXTURED WHITE) --- */
+    /* Standardized Typography Classes */
+    .serif-title { font-family: 'Cormorant Garamond', serif; }
+    .sans-label { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 5px; font-size: 10px; color: #666; }
+
+    /* --- ENVELOPE --- */
     #envelopeWrapper {
       position: fixed;
       inset: 0;
@@ -35,7 +38,6 @@
     .envelope {
       width: 480px; height: 320px; background: #fff; position: relative; cursor: pointer;
       box-shadow: 0 60px 120px rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center;
-      border: 1px solid #eee;
     }
     .envelope-flap {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fdfdfd;
@@ -47,54 +49,50 @@
       font-family: 'Cormorant Garamond', serif; font-weight: 600;
     }
 
-    /* --- LAYOUT STRUCTURE --- */
+    /* --- LAYOUT --- */
     .invite-page { display: flex; opacity: 0; transition: var(--transition); visibility: hidden; }
     .show-page { opacity: 1; visibility: visible; }
 
-    /* --- LEFT PANEL: THE FIXED BRANDING & INVITE --- */
     .left-fixed {
       width: 40%; height: 100vh; position: fixed; left: 0; top: 0;
       padding: 60px; display: flex; flex-direction: column; justify-content: space-between;
       background: var(--black); border-right: 1px solid var(--border); z-index: 100;
     }
-    .okna-logo { font-family: 'Cormorant Garamond', serif; font-size: 42px; letter-spacing: 20px; text-transform: uppercase; font-weight: 600; text-align: center; color: var(--white); }
+
+    .okna-logo { font-family: 'Cormorant Garamond', serif; font-size: 42px; letter-spacing: 20px; text-transform: uppercase; font-weight: 600; text-align: center; }
     
     .hero-text { margin-top: -20px; }
     .invite-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: #999; margin-bottom: 25px; line-height: 1.4; }
     .guest-names { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 75px); line-height: 1; font-weight: 500; margin-bottom: 30px; letter-spacing: -1px;}
-    .guest-role { text-transform: uppercase; letter-spacing: 6px; font-size: 10px; color: #666; border-left: 1px solid #333; padding-left: 15px; }
+    
+    .bottom-date { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 4px; color: #555; text-transform: uppercase; }
 
-    .bottom-date { font-size: 11px; letter-spacing: 4px; color: #555; text-transform: uppercase; }
-
-    /* --- RIGHT PANEL: SCROLLING IMMERSIVE CONTENT --- */
+    /* --- RIGHT CONTENT --- */
     .right-scroll { width: 60%; margin-left: 40%; background: var(--black); }
     
-    .panel { min-height: 100vh; width: 100%; position: relative; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; overflow: hidden; border-bottom: 1px solid var(--border); }
+    .panel { min-height: 100vh; width: 100%; position: relative; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid var(--border); }
     
-    .panel-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; opacity: 0.4; filter: grayscale(100%); transition: 2s cubic-bezier(0.2, 1, 0.3, 1); }
-    .panel:hover .panel-bg { opacity: 0.6; filter: grayscale(0%); transform: scale(1.08); }
+    .panel-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; opacity: 0.4; filter: grayscale(100%); transition: 2s ease; }
+    .panel:hover .panel-bg { opacity: 0.6; filter: grayscale(0%); transform: scale(1.05); }
 
     .content-overlay { position: relative; z-index: 1; }
-    .panel-tag { text-transform: uppercase; letter-spacing: 5px; font-size: 10px; color: #fff; margin-bottom: 25px; display: block; opacity: 0.5; }
     .panel-title { font-family: 'Cormorant Garamond', serif; font-size: 56px; margin-bottom: 35px; line-height: 1; font-weight: 300; }
-    .panel-p { font-size: 16px; line-height: 1.9; color: #bbb; margin-bottom: 35px; max-width: 500px; }
+    .panel-p { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.9; color: #bbb; margin-bottom: 35px; max-width: 500px; font-weight: 300; }
 
-    /* Specs styling */
-    .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 50px; border-top: 1px solid var(--border); padding-top: 40px;}
-    .spec-box h5 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #555; margin-bottom: 8px; }
-    .spec-box p { font-size: 15px; color: #fff; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    /* Unified Specs Section */
+    .specs-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; border-top: 1px solid var(--border); padding-top: 40px;}
+    .spec-box .label { font-family: 'Inter', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: #555; margin-bottom: 10px; display: block;}
+    .spec-box .value { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #fff; font-style: italic; }
 
     /* CTA Section */
-    .cta-panel { background: #fff; color: #000; padding: 120px 10%; text-align: left; }
-    .address-text { font-size: 18px; line-height: 1.8; margin-bottom: 50px; color: #333; }
-    .map-btn { display: inline-block; padding: 25px 60px; background: #000; color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 5px; font-size: 11px; font-weight: 600; transition: 0.4s; }
-    .map-btn:hover { padding-left: 80px; background: #222; }
+    .cta-panel { background: #fff; color: #000; padding: 120px 10%; }
+    .address-text { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.8; margin-bottom: 50px; color: #333; font-weight: 400;}
+    .map-btn { display: inline-block; padding: 25px 60px; background: #000; color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 5px; font-size: 11px; font-weight: 600; font-family: 'Inter', sans-serif; }
 
     @media (max-width: 1200px) {
       .invite-page { flex-direction: column; }
-      .left-fixed { width: 100%; height: auto; position: relative; padding: 60px 40px; border-right: none; border-bottom: 1px solid var(--border); }
+      .left-fixed { width: 100%; height: auto; position: relative; padding: 60px 40px; border-right: none; }
       .right-scroll { width: 100%; margin-left: 0; }
-      .guest-names { font-size: 55px; }
     }
   </style>
 </head>
@@ -104,62 +102,60 @@
     <div class="envelope" onclick="openInvite()">
       <div class="envelope-flap" id="flap"></div>
       <div class="seal">OKNA</div>
-      <div style="margin-top: 110px; color: #aaa; font-size: 9px; letter-spacing: 5px; text-transform: uppercase;">A Private Invitation</div>
+      <div class="sans-label" style="margin-top: 110px; color: #aaa;">A Private Invitation</div>
     </div>
   </div>
 
   <div class="invite-page" id="invitePage">
-    
     <div class="left-fixed">
-      <div class="okna-logo">OKNA</div>
-      
+      <div class="okna-logo serif-title">OKNA</div>
       <div class="hero-text">
-        <p class="invite-text">OKNA cordially invites you to an exclusive lunch experience and architectural walkthrough with</p>
-        <h1 class="guest-names">Ar. Deeksha & <br>Ar. Harsimran</h1>
-        <p class="guest-role">Principal Architects • The Arch House</p>
+        <p class="invite-text serif-title">OKNA cordially invites you to an exclusive lunch experience and architectural walkthrough with</p>
+        <h1 class="guest-names serif-title">Ar. Deeksha & <br>Ar. Harsimran</h1>
+        <p class="sans-label" style="color:#444">Principal Architects • The Arch House</p>
       </div>
-
       <div class="bottom-date">Tuesday, May 12, 2026 • 12:30 PM</div>
     </div>
 
     <div class="right-scroll">
-      
       <section class="panel">
         <div class="panel-bg" style="background-image: url('https://images.unsplash.com/photo-1600607687940-4e524cb35a07?q=80&w=1400');"></div>
         <div class="content-overlay">
-          <span class="panel-tag">01 / Heritage</span>
-          <h2 class="panel-title">Belgium <br>Engineering.</h2>
-          <p class="panel-p">OKNA systems represent the pinnacle of Belgium engineering—where ultra-slim profiles meet robust structural integrity. We invite you to witness the seamless fusion of hardware and transparency.</p>
+          <span class="sans-label" style="color:#fff; opacity:0.5; margin-bottom:20px; display:block;">01 / Heritage</span>
+          <h2 class="panel-title serif-title">Belgium <br>Engineering.</h2>
+          <p class="panel-p">OKNA systems represent the pinnacle of Belgium engineering—where ultra-slim profiles meet robust structural integrity. Step into a world where boundaries dissolve.</p>
         </div>
       </section>
 
       <section class="panel" style="background-color: #080808;">
         <div class="content-overlay">
-          <span class="panel-tag">02 / Technical Mastery</span>
-          <h2 class="panel-title">The Art of <br>Minimalism.</h2>
-          <p class="panel-p">Our systems are designed for the modern vision. Minimalist sightlines of just 20mm allow for expansive panoramic views without compromising on thermal or acoustic performance.</p>
+          <span class="sans-label" style="margin-bottom:20px; display:block;">02 / Specifications</span>
+          <h2 class="panel-title serif-title">The Art of <br>Precision.</h2>
           
-          <div class="specs">
-            <div class="spec-box"><h5>Origin</h5><p>Belgium Designed Systems</p></div>
-            <div class="spec-box"><h5>Hardware</h5><p>Precision Multi-Point Security</p></div>
-            <div class="spec-box) "><h5>Profiles</h5><p>Slim-Line Minimalist Aluminum</p></div>
-            <div class="spec-box"><h5>Experience</h5><p>Silent Soft-Motion Operation</p></div>
+          <div class="specs-container">
+            <div class="spec-box">
+              <span class="label">Origin</span>
+              <span class="value">Belgium Designed Systems</span>
+            </div>
+            <div class="spec-box">
+              <span class="label">Hardware</span>
+              <span class="value">Precision Multi-Point Security</span>
+            </div>
+            <div class="spec-box">
+              <span class="label">Profiles</span>
+              <span class="value">Slim-Line Minimalist Aluminum</span>
+            </div>
+            <div class="spec-box">
+              <span class="label">Experience</span>
+              <span class="value">Silent Soft-Motion Operation</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="panel">
-        <div class="panel-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400');"></div>
-        <div class="content-overlay">
-          <span class="panel-tag">03 / The Gathering</span>
-          <h2 class="panel-title">Design <br>Dialogue.</h2>
-          <p class="panel-p">Beyond a showcase, this is a moment for collaboration. We look forward to hosting you for an intimate lunch to discuss the future of architectural boundaries and lifestyle design.</p>
-        </div>
-      </section>
-
       <section class="cta-panel">
-        <span class="panel-tag" style="color: #000; opacity: 0.4;">04 / Destination</span>
-        <h2 class="panel-title" style="color: #000; margin-bottom: 20px;">Experience OKNA</h2>
+        <span class="sans-label" style="color: #000; opacity: 0.4; margin-bottom:20px; display:block;">03 / Destination</span>
+        <h2 class="panel-title serif-title" style="color: #000; margin-bottom: 20px;">Experience OKNA</h2>
         <p class="address-text">
           2nd Floor, Plot no - 1620 C, Sector 82, <br>
           JLPL Industrial Area, Sahibzada Ajit Singh Nagar, <br>
@@ -167,33 +163,19 @@
         </p>
         <a href="https://www.google.com/maps/search/?api=1&query=OKNA+Sector+82+Mohali" target="_blank" class="map-btn">Navigate to Venue</a>
       </section>
-
-      <footer style="padding: 50px 10%; font-size: 9px; letter-spacing: 4px; color: #444; text-transform: uppercase; border-top: 1px solid var(--border);">
-        Luxury System Windows & Doors • oknadesigns.com
-      </footer>
-
     </div>
-
   </div>
 
   <script>
     function openInvite() {
-      const flap = document.getElementById('flap');
-      const wrapper = document.getElementById('envelopeWrapper');
-      const page = document.getElementById('invitePage');
-
-      // Animate flap
-      flap.style.transform = "rotateX(180deg)";
-      
-      // Reveal page
+      document.getElementById('flap').style.transform = "rotateX(180deg)";
       setTimeout(() => {
-        wrapper.style.opacity = "0";
-        wrapper.style.visibility = "hidden";
-        page.classList.add('show-page');
+        document.getElementById('envelopeWrapper').style.opacity = "0";
+        document.getElementById('envelopeWrapper').style.visibility = "hidden";
+        document.getElementById('invitePage').classList.add('show-page');
         document.body.style.overflowY = "auto";
       }, 800);
     }
   </script>
-
 </body>
 </html>
