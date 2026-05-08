@@ -20,9 +20,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--black); font-family: 'Inter', sans-serif; color: var(--white); overflow-x: hidden; }
 
-    /* Standardized Typography Classes */
-    .serif-title { font-family: 'Cormorant Garamond', serif; }
-    .sans-label { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 5px; font-size: 10px; color: #666; }
+    /* Unified Typography Classes */
+    .serif { font-family: 'Cormorant Garamond', serif; }
+    .sans { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 5px; font-size: 10px; color: #666; }
 
     /* --- ENVELOPE --- */
     #envelopeWrapper {
@@ -59,25 +59,23 @@
       background: var(--black); border-right: 1px solid var(--border); z-index: 100;
     }
 
-    .okna-logo { font-family: 'Cormorant Garamond', serif; font-size: 42px; letter-spacing: 20px; text-transform: uppercase; font-weight: 600; text-align: center; }
-    
+    .okna-logo { font-size: 42px; letter-spacing: 20px; text-transform: uppercase; font-weight: 600; text-align: center; }
     .hero-text { margin-top: -20px; }
-    .invite-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: #999; margin-bottom: 25px; line-height: 1.4; }
-    .guest-names { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 75px); line-height: 1; font-weight: 500; margin-bottom: 30px; letter-spacing: -1px;}
-    
-    .bottom-date { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 4px; color: #555; text-transform: uppercase; }
+    .invite-text { font-size: 22px; font-style: italic; color: #999; margin-bottom: 25px; line-height: 1.4; }
+    .guest-names { font-size: clamp(40px, 5vw, 75px); line-height: 1; font-weight: 500; margin-bottom: 30px; letter-spacing: -1px;}
+    .bottom-date { font-size: 11px; letter-spacing: 4px; color: #555; text-transform: uppercase; }
 
     /* --- RIGHT CONTENT --- */
     .right-scroll { width: 60%; margin-left: 40%; background: var(--black); }
     
     .panel { min-height: 100vh; width: 100%; position: relative; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid var(--border); }
     
-    .panel-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; opacity: 0.4; filter: grayscale(100%); transition: 2s ease; }
-    .panel:hover .panel-bg { opacity: 0.6; filter: grayscale(0%); transform: scale(1.05); }
+    .panel-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 0; opacity: 0.35; filter: grayscale(100%); transition: 2s ease; }
+    .panel:hover .panel-bg { opacity: 0.55; filter: grayscale(0%); transform: scale(1.05); }
 
     .content-overlay { position: relative; z-index: 1; }
-    .panel-title { font-family: 'Cormorant Garamond', serif; font-size: 56px; margin-bottom: 35px; line-height: 1; font-weight: 300; }
-    .panel-p { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.9; color: #bbb; margin-bottom: 35px; max-width: 500px; font-weight: 300; }
+    .panel-title { font-size: 56px; margin-bottom: 35px; line-height: 1; font-weight: 300; }
+    .panel-p { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.9; color: #bbb; margin-bottom: 35px; max-width: 550px; font-weight: 300; }
 
     /* Unified Specs Section */
     .specs-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; border-top: 1px solid var(--border); padding-top: 40px;}
@@ -101,68 +99,88 @@
   <div id="envelopeWrapper">
     <div class="envelope" onclick="openInvite()">
       <div class="envelope-flap" id="flap"></div>
-      <div class="seal">OKNA</div>
-      <div class="sans-label" style="margin-top: 110px; color: #aaa;">A Private Invitation</div>
+      <div class="seal serif">OKNA</div>
+      <div class="sans" style="margin-top: 110px; color: #aaa;">A Private Invitation</div>
     </div>
   </div>
 
   <div class="invite-page" id="invitePage">
     <div class="left-fixed">
-      <div class="okna-logo serif-title">OKNA</div>
+      <div class="okna-logo serif">OKNA</div>
       <div class="hero-text">
-        <p class="invite-text serif-title">OKNA cordially invites you to an exclusive lunch experience and architectural walkthrough with</p>
-        <h1 class="guest-names serif-title">Ar. Deeksha & <br>Ar. Harsimran</h1>
-        <p class="sans-label" style="color:#444">Principal Architects • The Arch House</p>
+        <p class="invite-text serif">OKNA cordially invites you to an exclusive lunch experience and architectural walkthrough with</p>
+        <h1 class="guest-names serif">Ar. Deeksha & <br>Ar. Harsimran</h1>
+        <p class="sans" style="color:#444">Principal Architects • The Arch House</p>
       </div>
-      <div class="bottom-date">Tuesday, May 12, 2026 • 12:30 PM</div>
+      <div class="bottom-date sans">Tuesday, May 12, 2026 • 12:30 PM</div>
     </div>
 
     <div class="right-scroll">
+      
       <section class="panel">
         <div class="panel-bg" style="background-image: url('https://images.unsplash.com/photo-1600607687940-4e524cb35a07?q=80&w=1400');"></div>
         <div class="content-overlay">
-          <span class="sans-label" style="color:#fff; opacity:0.5; margin-bottom:20px; display:block;">01 / Heritage</span>
-          <h2 class="panel-title serif-title">Belgium <br>Engineering.</h2>
-          <p class="panel-p">OKNA systems represent the pinnacle of Belgium engineering—where ultra-slim profiles meet robust structural integrity. Step into a world where boundaries dissolve.</p>
+          <span class="sans" style="color:#fff; opacity:0.5; margin-bottom:20px; display:block;">01 / Heritage</span>
+          <h2 class="panel-title serif">Belgium <br>Engineering.</h2>
+          <p class="panel-p">OKNA systems represent the pinnacle of Belgium design—where ultra-slim profiles meet robust structural integrity. Every pivot and slide is a testament to a legacy of European precision, specifically crafted for modern architectural masterpieces.</p>
         </div>
       </section>
 
       <section class="panel" style="background-color: #080808;">
         <div class="content-overlay">
-          <span class="sans-label" style="margin-bottom:20px; display:block;">02 / Specifications</span>
-          <h2 class="panel-title serif-title">The Art of <br>Precision.</h2>
+          <span class="sans" style="margin-bottom:20px; display:block;">02 / The Philosophy</span>
+          <h2 class="panel-title serif">The Engineering <br>of Silence.</h2>
+          <p class="panel-p">Beyond visual transparency, we focus on sensory perfection. Our systems are engineered for the "Silent Soft-Motion" experience—effortless operation of glass spans exceeding 4 meters, ensuring your transition between interior and atmosphere is seamless.</p>
           
           <div class="specs-container">
             <div class="spec-box">
-              <span class="label">Origin</span>
-              <span class="value">Belgium Designed Systems</span>
-            </div>
-            <div class="spec-box">
               <span class="label">Hardware</span>
-              <span class="value">Precision Multi-Point Security</span>
+              <span class="value">Precision Multi-Point Belgium Systems</span>
             </div>
             <div class="spec-box">
-              <span class="label">Profiles</span>
-              <span class="value">Slim-Line Minimalist Aluminum</span>
+              <span class="label">Sightlines</span>
+              <span class="value">Ultra-Slim 20mm Profile Width</span>
             </div>
             <div class="spec-box">
-              <span class="label">Experience</span>
-              <span class="value">Silent Soft-Motion Operation</span>
+              <span class="label">Performance</span>
+              <span class="value">Acoustic & Thermal Mastery</span>
+            </div>
+            <div class="spec-box">
+              <span class="label">Design</span>
+              <span class="value">Bespoke Architectural Coatings</span>
             </div>
           </div>
         </div>
       </section>
 
+      <section class="panel">
+        <div class="panel-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400');"></div>
+        <div class="content-overlay">
+          <span class="sans" style="color:#fff; opacity:0.5; margin-bottom:20px; display:block;">03 / Visual Continuity</span>
+          <h2 class="panel-title serif">Dissolving <br>Boundaries.</h2>
+          <p class="panel-p">We invite you to touch and feel the zero-threshold drainage systems and panoramic sliding doors that redefine how space is perceived. At our Mohali Experience Center, see how we translate complex structural visions into elegant, functional realities.</p>
+        </div>
+      </section>
+
       <section class="cta-panel">
-        <span class="sans-label" style="color: #000; opacity: 0.4; margin-bottom:20px; display:block;">03 / Destination</span>
-        <h2 class="panel-title serif-title" style="color: #000; margin-bottom: 20px;">Experience OKNA</h2>
+        <span class="sans" style="color: #000; opacity: 0.4; margin-bottom:20px; display:block;">04 / Destination</span>
+        <h2 class="panel-title serif" style="color: #000; margin-bottom: 20px;">The Dialogue Experience</h2>
         <p class="address-text">
+          Join us for an intimate lunch where we explore the intersection of design and engineering. <br><br>
+          <b>Venue:</b><br>
           2nd Floor, Plot no - 1620 C, Sector 82, <br>
           JLPL Industrial Area, Sahibzada Ajit Singh Nagar, <br>
           Mohali, Punjab 140306
         </p>
         <a href="https://www.google.com/maps/search/?api=1&query=OKNA+Sector+82+Mohali" target="_blank" class="map-btn">Navigate to Venue</a>
       </section>
+
+      <footer style="padding: 60px 10%; border-top: 1px solid var(--border); background: #000;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="sans" style="color:#444">© 2026 OKNA LUXURY SYSTEMS</div>
+          <div class="sans" style="color:#444">oknadesigns.com</div>
+        </div>
+      </footer>
     </div>
   </div>
 
