@@ -1,17 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OKNA Experience Center Invitation</title>
+  <title>OKNA | Exclusive Invitation</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Inter:wght@200;400;600&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray: #f4f4f4;
+      --border: rgba(0,0,0,0.1);
+      --transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
     * {
       margin: 0;
@@ -19,592 +24,260 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --gold: #d6b17a;
-      --gold-soft: #f0d3a3;
-      --white: #ffffff;
-      --muted: rgba(255,255,255,0.65);
-      --border: rgba(255,255,255,0.08);
-      --dark: #060606;
-    }
-
     body {
-      background: #040404;
-      color: white;
+      background-color: #0a0a0a;
       font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    .hero {
+    /* Envelope Wrapper */
+    .envelope-wrapper {
       position: relative;
-      min-height: 100vh;
-      overflow: hidden;
+      cursor: pointer;
+      width: 400px;
+      height: 280px;
+      background-color: var(--black);
+      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+      transition: var(--transition);
+    }
+
+    /* The actual invitation inside */
+    .letter {
+      position: absolute;
+      bottom: 0;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      background: var(--white);
+      padding: 40px;
+      transition: var(--transition);
+      z-index: 1;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 50px;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
     }
 
-    .hero video {
+    /* Flap of the envelope */
+    .envelope-wrapper::before {
+      content: "";
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.35;
-      animation: zoomVideo 18s ease-in-out infinite alternate;
+      top: 0;
+      z-index: 4;
+      border-top: 140px solid #1a1a1a;
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      transform-origin: top;
+      transition: var(--transition);
     }
 
-    .overlay {
+    /* Bottom parts of envelope */
+    .envelope-wrapper::after {
+      content: "";
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom,
-        rgba(0,0,0,0.45),
-        rgba(0,0,0,0.88));
+      z-index: 3;
+      width: 0;
+      height: 0;
+      border-top: 140px solid transparent;
+      border-left: 200px solid var(--black);
+      border-right: 200px solid var(--black);
+      border-bottom: 140px solid var(--black);
+      bottom: 0;
     }
 
-    .hero-content {
-      position: relative;
+    /* Interaction State */
+    .envelope-wrapper.open {
+      transform: translateY(150px);
+      width: 95%;
+      max-width: 900px;
+      height: auto;
+      cursor: default;
+    }
+
+    .envelope-wrapper.open::before {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+
+    .envelope-wrapper.open .letter {
+      bottom: 100px;
+      height: auto;
+      min-height: 1000px;
+      opacity: 1;
       z-index: 5;
-      max-width: 1200px;
       width: 100%;
-      text-align: center;
-      animation: fadeUp 1.4s ease forwards;
+      left: 0;
+      box-shadow: 0 -20px 50px rgba(0,0,0,0.2);
     }
 
+    /* Letter Content Styling */
     .logo {
+      text-align: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 80px;
-      letter-spacing: 14px;
-      color: var(--gold-soft);
-      margin-bottom: 40px;
-      animation: fadeIn 2s ease;
-    }
-
-    .exclusive {
-      display: inline-block;
-      border: 1px solid rgba(214,177,122,0.45);
-      padding: 14px 28px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      font-size: 11px;
-      color: var(--gold-soft);
-      margin-bottom: 45px;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.03);
-      animation: slideUp 1.2s ease;
-    }
-
-    .headline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 110px;
-      line-height: 0.92;
+      font-size: 42px;
       font-weight: 600;
-      margin-bottom: 35px;
-      animation: reveal 1.8s ease;
+      letter-spacing: 15px;
+      margin-bottom: 60px;
+      color: var(--black);
     }
 
-    .headline span {
-      color: var(--gold-soft);
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 40px;
+    }
+
+    .tagline {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    .main-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      line-height: 1.1;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    .description {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 40px;
       font-style: italic;
     }
 
-    .subtext {
-        font-size: 17px;
-        line-height: 1.9;
-        margin-bottom: 40px;
-      }
-
-      .buttons {
-        width: 100%;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 18px 24px;
-      }
-
-      .subtext {
-      max-width: 900px;
-      margin: auto;
-      font-size: 22px;
-      line-height: 2;
-      color: rgba(255,255,255,0.78);
-      margin-bottom: 60px;
-      animation: fadeIn 2.4s ease;
+    .details {
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
     }
 
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      animation: slideUp 2s ease;
+    .detail-item {
+      margin-bottom: 30px;
+    }
+
+    .label {
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 18px;
+      font-weight: 400;
     }
 
     .btn {
-      padding: 18px 38px;
-      border-radius: 100px;
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 20px 40px;
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 3px;
       font-size: 12px;
-      transition: 0.45s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary {
-      background: var(--gold);
-      color: #111;
-    }
-
-    .btn-secondary {
-      border: 1px solid rgba(255,255,255,0.15);
-      color: white;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.04);
+      letter-spacing: 4px;
+      margin-top: 40px;
+      transition: 0.3s;
     }
 
     .btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(214,177,122,0.2);
+      background: #333;
     }
 
-    .experience {
-      padding: 120px 70px;
-      background:
-        radial-gradient(circle at top right, rgba(214,177,122,0.08), transparent 30%),
-        #070707;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 70px;
-      align-items: center;
-      max-width: 1350px;
-      margin: auto;
-    }
-
-    .image-box {
-      position: relative;
-      overflow: hidden;
-      border-radius: 28px;
-      border: 1px solid var(--border);
-      min-height: 700px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-    }
-
-    .image-box img {
+    .image-side img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: 8s ease;
+      filter: grayscale(100%);
     }
 
-    .image-box:hover img {
-      transform: scale(1.08);
-    }
-
-    .content .label {
-      color: var(--gold-soft);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      font-size: 12px;
-      margin-bottom: 28px;
-    }
-
-    .content h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 82px;
-      line-height: 1;
-      margin-bottom: 35px;
-      font-weight: 600;
-    }
-
-    .content p {
-      color: rgba(255,255,255,0.72);
-      font-size: 20px;
-      line-height: 2;
-      margin-bottom: 26px;
-    }
-
-    .features {
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .feature {
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 28px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.03);
-      backdrop-filter: blur(10px);
-      transition: 0.45s ease;
-    }
-
-    .feature:hover {
-      transform: translateY(-8px);
-      border-color: rgba(214,177,122,0.3);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .feature-title {
-      color: var(--gold-soft);
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 15px;
-    }
-
-    .feature-text {
-      color: rgba(255,255,255,0.72);
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    .visit {
-      padding: 130px 60px;
-      text-align: center;
-      background:
-        linear-gradient(to bottom,
-        #080808,
-        #020202);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .visit::before {
-      content: '';
+    /* Help text */
+    .instruction {
       position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: rgba(214,177,122,0.06);
-      top: -300px;
-      right: -150px;
-      filter: blur(50px);
-    }
-
-    .visit h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 90px;
-      line-height: 1;
-      max-width: 1000px;
-      margin: auto auto 40px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .visit p {
-      max-width: 850px;
-      margin: auto;
-      color: rgba(255,255,255,0.72);
-      line-height: 2;
-      font-size: 22px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 35px 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      top: -50px;
+      width: 100%;
+      text-align: center;
+      color: var(--white);
       text-transform: uppercase;
-      letter-spacing: 4px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.45);
-      background: #050505;
+      font-size: 10px;
+      letter-spacing: 5px;
+      animation: pulse 2s infinite;
     }
 
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
     }
 
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @media (max-width: 768px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .envelope-wrapper { width: 320px; }
+      .main-title { font-size: 40px; }
+      .image-side { display: none; }
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes reveal {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-        letter-spacing: 10px;
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-        letter-spacing: 0px;
-      }
-    }
-
-    @keyframes zoomVideo {
-      from {
-        transform: scale(1);
-      }
-      to {
-        transform: scale(1.08);
-      }
-    }
-
-    @media(max-width: 1200px) {
-
-      .headline {
-        font-size: 82px;
-      }
-
-      .content h2 {
-        font-size: 68px;
-      }
-
-      .grid {
-        gap: 40px;
-      }
-
-    }
-
-    @media(max-width: 980px) {
-
-      body {
-        overflow-x: hidden;
-      }
-
-      .headline {
-        font-size: 52px;
-        line-height: 1;
-        margin-bottom: 28px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .experience,
-      .visit {
-        padding: 80px 28px;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 90px 22px 70px;
-      }
-
-      .content h2 {
-        font-size: 42px;
-        line-height: 1.1;
-        margin-bottom: 24px;
-      }
-
-      .visit h3 {
-        font-size: 44px;
-        line-height: 1.1;
-        margin-bottom: 24px;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .logo {
-        font-size: 42px;
-        letter-spacing: 6px;
-        margin-bottom: 28px;
-        letter-spacing: 8px;
-      }
-
-      .image-box {
-        min-height: 420px;
-        border-radius: 22px;
-      }
-
-      .content p,
-      .visit p {
-        font-size: 16px;
-        line-height: 1.9;
-      }
-
-      .exclusive {
-        font-size: 10px;
-        letter-spacing: 3px;
-        padding: 12px 18px;
-        margin-bottom: 28px;
-      }
-
-      .feature {
-        padding: 22px;
-        border-radius: 20px;
-      }
-
-      .footer {
-        flex-direction: column;
-        gap: 14px;
-        text-align: center;
-      }
-
-    }
-
   </style>
 </head>
 <body>
 
-  <section class="hero">
-
-    <!-- Replace with OKNA cinematic video from oknadesigns.com -->
-    <video autoplay muted loop playsinline>
-      <source src="YOUR-OKNA-VIDEO.mp4" type="video/mp4">
-    </video>
-
-    <div class="overlay"></div>
-
-    <div class="hero-content">
-
+  <div class="envelope-wrapper" id="envelope">
+    <div class="instruction">Click to Open</div>
+    
+    <div class="letter">
       <div class="logo">OKNA</div>
-
-      <div class="exclusive">Private Experience Center Invitation</div>
-
-      <div class="headline">
-        Experience <span>Luxury</span><br>
-        Through Every Detail
-      </div>
-
-      <div class="subtext">
-        We invite you to discover the craftsmanship, precision engineering, acoustic comfort, and architectural elegance behind OKNA’s premium system windows & doors — curated inside our immersive Experience Center.
-      </div>
-
-      <div class="buttons">
-        <a href="https://oknadesigns.com" class="btn btn-primary" target="_blank">
-          Explore OKNA
-        </a>
-
-        <a href="https://maps.google.com" class="btn btn-secondary" target="_blank">
-          Visit Experience Center
-        </a>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section class="experience">
-
-    <div class="grid">
-
-      <div class="image-box">
-
-        <!-- Replace with OKNA image from website -->
-        <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=1800&auto=format&fit=crop" alt="OKNA Luxury Windows">
-
-      </div>
-
-      <div class="content">
-
-        <div class="label">The OKNA Experience</div>
-
-        <h2>
-          Designed for <br>
-          Modern Luxury Living
-        </h2>
-
-        <p>
-          Step inside a thoughtfully curated environment where design, technology, silence, elegance, and craftsmanship come together.
-        </p>
-
-        <p>
-          Explore our signature collection of slim aluminium systems, premium uPVC solutions, luxury sliding systems, and precision-engineered architectural detailing.
-        </p>
-
-        <div class="features">
-
-          <div class="feature">
-            <div class="feature-title">Acoustic Comfort</div>
-            <div class="feature-text">
-              Experience the difference in sound insulation and seamless comfort.
+      
+      <div class="content-grid">
+        <div class="text-side">
+          <div class="tagline">Exclusive Experience Center Invite</div>
+          <h1 class="main-title">The Art of <br>Precision.</h1>
+          <p class="description">
+            We cordially invite you to experience the fusion of architectural vision and German engineering. Join Ar. Deeksha and Ar. Harsimran for an exclusive walkthrough of our new collection.
+          </p>
+          
+          <div class="details">
+            <div class="detail-item">
+              <div class="label">Date</div>
+              <div class="value">Tuesday, May 12, 2026</div>
+            </div>
+            <div class="detail-item">
+              <div class="label">Time</div>
+              <div class="value">12:30 PM — Lunch Experience</div>
+            </div>
+            <div class="detail-item">
+              <div class="label">Location</div>
+              <div class="value">Sector 82, JLPL Industrial Area, SAS Nagar</div>
             </div>
           </div>
 
-          <div class="feature">
-            <div class="feature-title">Luxury Engineering</div>
-            <div class="feature-text">
-              Precision-crafted systems designed for premium architectural spaces.
-            </div>
-          </div>
-
-          <div class="feature">
-            <div class="feature-title">Minimal Aesthetics</div>
-            <div class="feature-text">
-              Ultra-slim profiles curated for modern contemporary homes.
-            </div>
-          </div>
-
-          <div class="feature">
-            <div class="feature-title">Experience Center</div>
-            <div class="feature-text">
-              Interact with real-scale installations and live system displays.
-            </div>
-          </div>
-
+          <a href="https://maps.google.com" target="_blank" class="btn">Experience OKNA</a>
         </div>
-
+        
+        <div class="image-side">
+           <img src="https://images.unsplash.com/photo-1600607687940-4e524cb35a07?q=80&w=1200&auto=format&fit=crop" alt="Architecture">
+        </div>
       </div>
-
     </div>
-
-  </section>
-
-  <section class="visit">
-
-    <h3>
-      An Invitation <br>
-      To Experience OKNA
-    </h3>
-
-    <p>
-      Discover how luxury windows & doors can transform the way a space feels, sounds, and lives. We would be delighted to host you at the OKNA Experience Center for an exclusive walkthrough of our world.
-    </p>
-
-  </section>
-
-  <div class="footer">
-    <div>Luxury System Windows & Doors</div>
-    <div>OKNA Experience Center</div>
-    <div>oknadesigns.com</div>
   </div>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    envelope.addEventListener('click', () => {
+      envelope.classList.add('open');
+      document.querySelector('.instruction').style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
-
-* Add WhatsApp inquiry integration
-* Add smooth scroll storytelling sections
