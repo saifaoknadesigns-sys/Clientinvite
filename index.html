@@ -7,46 +7,47 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,400&family=Inter:wght@200;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --black: #000000;
       --white: #ffffff;
-      --off-white: #fcfcfc;
-      --border: rgba(0,0,0,0.06);
-      --transition-slow: all 1s cubic-bezier(0.7, 0, 0.3, 1);
+      --accent: #1a1a1a;
+      --transition-slow: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #0c0c0c;
+      background-color: #000;
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
+      color: var(--white);
+    }
+
+    /* --- INITIAL ENVELOPE (MINIMAL & RICH) --- */
+    #envelopeWrapper {
+      position: fixed;
+      inset: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-    }
-
-    /* --- LUXURY ENVELOPE --- */
-    .envelope-container {
-      position: relative;
-      width: 500px;
-      height: 340px;
-      perspective: 1500px;
-      cursor: pointer;
-      z-index: 100;
+      z-index: 1000;
+      background: #000;
       transition: var(--transition-slow);
     }
 
     .envelope {
+      width: 450px;
+      height: 300px;
+      background: #fff;
       position: relative;
-      width: 100%;
-      height: 100%;
-      background: var(--white);
-      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+      cursor: pointer;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .envelope-flap {
@@ -55,300 +56,270 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #f4f4f4;
+      background: #f0f0f0;
       clip-path: polygon(0 0, 50% 55%, 100% 0);
-      z-index: 3;
-      transition: var(--transition-slow);
       transform-origin: top;
-      border-top: 1px solid #eee;
-    }
-
-    .envelope-front {
-      position: absolute;
-      inset: 0;
+      transition: var(--transition-slow);
       z-index: 2;
-      background: var(--white);
-      clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
     .seal {
       position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 70px;
-      height: 70px;
-      background: var(--black);
+      z-index: 3;
+      width: 60px;
+      height: 60px;
+      background: #000;
       border-radius: 50%;
-      z-index: 4;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: white;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 14px;
-      letter-spacing: 3px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      transition: var(--transition-slow);
+      color: #fff;
+      font-size: 10px;
+      letter-spacing: 2px;
     }
 
-    /* --- THE FULL PAGE REVEAL --- */
+    /* --- MAIN CONTENT (FULL PAGE REVEAL) --- */
     .invite-page {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: var(--white);
-      z-index: 1;
       opacity: 0;
       visibility: hidden;
-      overflow-y: auto;
       transition: var(--transition-slow);
-      transform: scale(1.1);
-    }
-
-    .opened-envelope {
-      transform: scale(0.8);
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .opened-flap {
-      transform: rotateX(180deg);
-      z-index: 0;
+      transform: translateY(50px);
     }
 
     .show-page {
       opacity: 1;
       visibility: visible;
-      transform: scale(1);
-      z-index: 200;
+      transform: translateY(0);
     }
 
-    /* --- CONTENT ELEMENTS --- */
-    .brand-nav {
-      padding: 40px 80px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      letter-spacing: 12px;
-      font-weight: 600;
-    }
-
-    .hero-section {
-      padding: 100px 80px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .architect-highlight {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 110px; /* BIG HIGHLIGHT */
-      line-height: 0.9;
-      font-weight: 500;
-      color: var(--black);
-      margin-bottom: 20px;
-      letter-spacing: -2px;
-    }
-
-    .architect-sub {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 10px;
-      color: #888;
-      margin-bottom: 60px;
-    }
-
-    .grid-layout {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .main-image {
+    /* --- SECTION: NAMES & HERO --- */
+    .hero {
+      position: relative;
+      height: 100vh;
       width: 100%;
-      height: 700px;
-      background: url('https://images.unsplash.com/photo-1600585154526-990dcea4db0d?q=80&w=1200&auto=format&fit=crop') center/cover;
-      filter: grayscale(100%);
-      transition: 2s ease;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 80px;
     }
 
-    .main-image:hover {
-      filter: grayscale(0%);
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.2) 50%),
+                  url('https://images.unsplash.com/photo-1600607687940-4e524cb35a07?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      transform: scale(1.1);
+      transition: 10s linear;
     }
 
-    .content-box {
-      padding-top: 40px;
+    .hero-content {
+      z-index: 10;
+      max-width: 1200px;
     }
 
-    .invite-text {
+    .names-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      line-height: 1.4;
+      font-size: clamp(60px, 10vw, 130px);
+      line-height: 0.85;
+      font-weight: 600;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+      animation: slideUp 1.5s ease forwards;
+    }
+
+    .sub-heading {
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-left: 5px;
+    }
+
+    /* --- SECTION: THE EXPERIENCE --- */
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .exp-image {
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop') center/cover;
+      height: 100%;
+    }
+
+    .exp-text {
+      padding: 120px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
       font-style: italic;
-      color: #333;
-      margin-bottom: 40px;
+      line-height: 1.3;
+      margin-bottom: 60px;
+      border-left: 3px solid #000;
+      padding-left: 40px;
     }
 
-    .feature-list {
-      margin-top: 60px;
-      border-top: 1px solid var(--black);
-      padding-top: 40px;
-    }
-
-    .feature-item {
-      margin-bottom: 40px;
+    .feature-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
     }
 
     .feature-item h4 {
       text-transform: uppercase;
       font-size: 11px;
-      letter-spacing: 4px;
+      letter-spacing: 3px;
       margin-bottom: 15px;
-      color: #999;
+      color: #777;
     }
 
     .feature-item p {
-      font-size: 16px;
-      line-height: 1.7;
-      color: #444;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
-    .cta-container {
-      background: var(--black);
-      color: white;
-      padding: 100px 80px;
+    /* --- SECTION: FULL IMAGE CALL TO ACTION --- */
+    .cta-banner {
+      height: 80vh;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                  url('https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=2000&auto=format&fit=crop') center/cover fixed;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      margin-top: 100px;
     }
 
-    .btn-visit {
-      display: inline-block;
+    .btn-luxury {
+      margin-top: 40px;
       padding: 25px 60px;
-      border: 1px solid rgba(255,255,255,0.4);
-      color: white;
+      background: #fff;
+      color: #000;
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 6px;
+      letter-spacing: 5px;
       font-size: 11px;
-      transition: 0.4s ease;
+      font-weight: 600;
+      transition: 0.4s;
     }
 
-    .btn-visit:hover {
-      background: white;
-      color: black;
+    .btn-luxury:hover {
+      background: #000;
+      color: #fff;
+      padding: 25px 80px;
     }
 
-    .footer-info {
+    /* --- FOOTER --- */
+    .footer {
       padding: 60px 80px;
+      background: #000;
       display: flex;
       justify-content: space-between;
       font-size: 10px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      letter-spacing: 3px;
-      color: #999;
+      color: #444;
     }
 
-    @media (max-width: 1024px) {
-      .architect-highlight { font-size: 70px; }
-      .grid-layout { grid-template-columns: 1fr; }
-      .hero-section, .brand-nav { padding: 40px; }
-      .envelope-container { width: 350px; height: 240px; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(100px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .experience-grid { grid-template-columns: 1fr; }
+      .exp-image { height: 400px; }
+      .hero { padding: 40px; }
+      .names-title { font-size: 50px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="envelope-container" id="envelopeWrapper">
-    <div class="envelope">
+  <div id="envelopeWrapper">
+    <div class="envelope" onclick="openInvite()">
       <div class="envelope-flap" id="flap"></div>
-      <div class="seal">
-        <span>OKNA</span>
-      </div>
-      <div class="envelope-front">
-        <div style="margin-top: 120px; letter-spacing: 6px; font-size: 10px; color: #bbb; text-transform: uppercase;">A Private Invitation</div>
-      </div>
+      <div class="seal">OKNA</div>
+      <div style="margin-top: 100px; color: #ccc; font-size: 9px; letter-spacing: 5px; text-transform: uppercase;">Tap to Open</div>
     </div>
   </div>
 
   <div class="invite-page" id="invitePage">
-    <nav class="brand-nav">
-      <div class="brand-logo">OKNA</div>
-      <div style="font-size: 11px; letter-spacing: 4px; text-transform: uppercase;">May 12, 2026</div>
-    </nav>
+    
+    <section class="hero">
+      <div class="hero-bg" id="heroBg"></div>
+      <div class="hero-content">
+        <div class="sub-heading">Principal Architects / The Arch House</div>
+        <h1 class="names-title">
+          Ar. Deeksha & <br>Ar. Harsimran
+        </h1>
+      </div>
+    </section>
 
-    <section class="hero-section">
-      <h1 class="architect-highlight">
-        Ar. Deeksha & <br>
-        Ar. Harsimran
-      </h1>
-      <div class="architect-sub">The Arch House / Principal Architects</div>
-
-      <div class="grid-layout">
-        <div class="main-image"></div>
+    <section class="experience-grid">
+      <div class="exp-image"></div>
+      <div class="exp-text">
+        <blockquote class="quote">
+          "We invite you to step into a world where boundaries dissolve. Explore the seamless transition between architecture and atmosphere."
+        </blockquote>
         
-        <div class="content-box">
-          <p class="invite-text">
-            "We invite you to step into a world where boundaries dissolve. Explore the seamless transition between architecture and atmosphere."
-          </p>
-          
-          <div class="feature-list">
-            <div class="feature-item">
-              <h4>The Experience</h4>
-              <p>Experience the tactile precision of OKNA. Our systems are engineered to offer silent operation and unmatched thermal efficiency, allowing you to feel the quality of German engineering in every slide and pivot.</p>
-            </div>
-
-            <div class="feature-item">
-              <h4>The Vision</h4>
-              <p>Discover our ultra-slim profiles designed for modern aesthetics. See how we balance structural integrity with minimalist design to provide uninterrupted panoramic views.</p>
-            </div>
+        <div class="feature-box">
+          <div class="feature-item">
+            <h4>Tactile Luxury</h4>
+            <p>Our Experience Center is designed for the senses. Feel the precision of German-engineered hardware and the silent glide of our panoramic systems.</p>
+          </div>
+          <div class="feature-item">
+            <h4>Architectural Vision</h4>
+            <p>See how ultra-slim profiles can redefine living spaces, providing structural strength with an uncompromising minimalist aesthetic.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="cta-container">
-      <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 42px; margin-bottom: 30px; font-weight: 300;">Visit the OKNA Experience Center</h2>
-      <p style="margin-bottom: 50px; opacity: 0.6; letter-spacing: 2px;">LUNCH & DESIGN DIALOGUE • 12:30 PM ONWARDS</p>
-      <a href="https://maps.google.com" target="_blank" class="btn-visit">Navigate to Venue</a>
+    <section class="cta-banner">
+      <div class="sub-heading" style="color: #fff; margin-bottom: 20px;">Private Gathering</div>
+      <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 50px; font-weight: 300;">An Afternoon at OKNA</h2>
+      <p style="letter-spacing: 3px; margin-top: 10px; opacity: 0.8;">MAY 12, 2026 • LUNCH & DIALOGUE</p>
+      <a href="https://maps.google.com" target="_blank" class="btn-luxury">Navigate to Experience Center</a>
     </section>
 
-    <footer class="footer-info">
+    <footer class="footer">
       <div>OKNA LUXURY SYSTEMS</div>
-      <div>Sector 82, JLPL Industrial Area, SAS Nagar</div>
-      <div>oknadesigns.com</div>
+      <div>SAS NAGAR, PUNJAB</div>
+      <div>©2026 OKNA DESIGNS</div>
     </footer>
   </div>
 
   <script>
-    const envelope = document.getElementById('envelopeWrapper');
-    const flap = document.getElementById('flap');
-    const page = document.getElementById('invitePage');
+    function openInvite() {
+      const flap = document.getElementById('flap');
+      const wrapper = document.getElementById('envelopeWrapper');
+      const page = document.getElementById('invitePage');
+      const heroBg = document.getElementById('heroBg');
 
-    envelope.addEventListener('click', () => {
-      // 1. Animate flap
-      flap.classList.add('opened-flap');
+      // 1. Flip flap
+      flap.style.transform = "rotateX(180deg)";
       
-      // 2. Transition to full page
+      // 2. Transition to page
       setTimeout(() => {
-        envelope.classList.add('opened-envelope');
+        wrapper.style.opacity = "0";
+        wrapper.style.visibility = "hidden";
         page.classList.add('show-page');
-        document.body.style.backgroundColor = "white";
-      }, 600);
-    });
+        // Start hero zoom
+        heroBg.style.transform = "scale(1)";
+      }, 700);
+    }
   </script>
 
 </body>
