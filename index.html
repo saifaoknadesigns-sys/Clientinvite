@@ -3,279 +3,325 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OKNA | Exclusive Invitation</title>
+  <title>OKNA | The Invitation</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Inter:wght@200;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --black: #000000;
       --white: #ffffff;
-      --gray: #f4f4f4;
-      --border: rgba(0,0,0,0.1);
-      --transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      --gold: #c5a059; /* Subtle gold for highlights only */
+      --gray-light: #f9f9f9;
+      --border: rgba(0,0,0,0.08);
+      --transition-slow: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #0a0a0a;
+      background-color: #111;
       font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    /* Envelope Wrapper */
-    .envelope-wrapper {
+    /* --- ENVELOPE STYLES --- */
+    .envelope-container {
       position: relative;
+      width: 450px;
+      height: 300px;
+      perspective: 1500px;
       cursor: pointer;
-      width: 400px;
-      height: 280px;
-      background-color: var(--black);
-      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
-      transition: var(--transition);
+      z-index: 100;
+      transition: var(--transition-slow);
     }
 
-    /* The actual invitation inside */
-    .letter {
-      position: absolute;
-      bottom: 0;
-      left: 5%;
-      width: 90%;
-      height: 90%;
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
       background: var(--white);
-      padding: 40px;
-      transition: var(--transition);
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      opacity: 0;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
     }
 
-    /* Flap of the envelope */
-    .envelope-wrapper::before {
-      content: "";
+    .envelope-flap {
       position: absolute;
       top: 0;
-      z-index: 4;
-      border-top: 140px solid #1a1a1a;
-      border-left: 200px solid transparent;
-      border-right: 200px solid transparent;
-      transform-origin: top;
-      transition: var(--transition);
-    }
-
-    /* Bottom parts of envelope */
-    .envelope-wrapper::after {
-      content: "";
-      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #eee;
+      clip-path: polygon(0 0, 50% 50%, 100% 0);
       z-index: 3;
-      width: 0;
-      height: 0;
-      border-top: 140px solid transparent;
-      border-left: 200px solid var(--black);
-      border-right: 200px solid var(--black);
-      border-bottom: 140px solid var(--black);
-      bottom: 0;
+      transition: var(--transition-slow);
+      transform-origin: top;
+      border-top: 1px solid #ddd;
     }
 
-    /* Interaction State */
-    .envelope-wrapper.open {
-      transform: translateY(150px);
-      width: 95%;
-      max-width: 900px;
-      height: auto;
-      cursor: default;
+    .envelope-front {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: var(--white);
+      clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .envelope-wrapper.open::before {
+    .seal {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: var(--black);
+      border-radius: 50%;
+      z-index: 4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: var(--transition-slow);
+    }
+
+    /* --- PAGE STYLES (THE INVITE) --- */
+    .invite-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: var(--white);
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      overflow-y: auto;
+      transition: var(--transition-slow);
+      transform: translateY(100px) scale(0.9);
+    }
+
+    /* --- OPEN STATE ANIMATIONS --- */
+    .opened-envelope {
+      transform: translateY(-200px) scale(0.5);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .opened-flap {
       transform: rotateX(180deg);
       z-index: 0;
     }
 
-    .envelope-wrapper.open .letter {
-      bottom: 100px;
-      height: auto;
-      min-height: 1000px;
+    .show-page {
       opacity: 1;
-      z-index: 5;
-      width: 100%;
-      left: 0;
-      box-shadow: 0 -20px 50px rgba(0,0,0,0.2);
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      z-index: 200;
     }
 
-    /* Letter Content Styling */
-    .logo {
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 42px;
-      font-weight: 600;
-      letter-spacing: 15px;
-      margin-bottom: 60px;
-      color: var(--black);
-    }
-
-    .content-grid {
+    /* --- CONTENT DESIGN --- */
+    .hero {
+      height: 90vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      margin-top: 40px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .tagline {
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      font-size: 11px;
-      color: #888;
-      margin-bottom: 20px;
+    .hero-text {
+      padding: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      animation: fadeInUp 1.5s ease;
     }
 
-    .main-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 64px;
-      line-height: 1.1;
-      font-weight: 300;
-      margin-bottom: 30px;
-    }
-
-    .description {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      line-height: 1.6;
-      color: #333;
-      margin-bottom: 40px;
-      font-style: italic;
-    }
-
-    .details {
-      border-top: 1px solid var(--border);
-      padding-top: 40px;
-    }
-
-    .detail-item {
-      margin-bottom: 30px;
-    }
-
-    .label {
-      text-transform: uppercase;
-      font-size: 10px;
-      letter-spacing: 3px;
-      color: #999;
-      margin-bottom: 8px;
-    }
-
-    .value {
-      font-size: 18px;
-      font-weight: 400;
-    }
-
-    .btn {
-      display: inline-block;
-      background: var(--black);
-      color: var(--white);
-      padding: 20px 40px;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 4px;
-      margin-top: 40px;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #333;
-    }
-
-    .image-side img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .hero-image {
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop') center/cover;
       filter: grayscale(100%);
     }
 
-    /* Help text */
-    .instruction {
-      position: absolute;
-      top: -50px;
-      width: 100%;
+    .brand-header {
       text-align: center;
-      color: var(--white);
+      padding: 60px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 50px;
+      letter-spacing: 20px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
       text-transform: uppercase;
-      font-size: 10px;
+      letter-spacing: 8px;
+      color: #999;
+      margin-bottom: 30px;
+    }
+
+    .main-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px;
+      line-height: 0.9;
+      font-weight: 500;
+      margin-bottom: 40px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 100px;
+      gap: 50px;
+      background: var(--gray-light);
+    }
+
+    .info-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .info-card p {
+      line-height: 1.8;
+      color: #555;
+      font-size: 15px;
+    }
+
+    .cta-section {
+      padding: 150px 100px;
+      text-align: center;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .cta-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 50px;
+      margin-bottom: 40px;
+    }
+
+    .btn-luxury {
+      display: inline-block;
+      padding: 22px 50px;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
       letter-spacing: 5px;
-      animation: pulse 2s infinite;
+      font-size: 12px;
+      transition: 0.4s;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
+    .btn-luxury:hover {
+      background: white;
+      color: black;
     }
 
-    @media (max-width: 768px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .envelope-wrapper { width: 320px; }
-      .main-title { font-size: 40px; }
-      .image-side { display: none; }
+    .venue-details {
+      display: flex;
+      justify-content: space-around;
+      padding: 60px 100px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .hero, .info-grid { grid-template-columns: 1fr; padding: 40px; }
+      .main-heading { font-size: 50px; }
+      .envelope-container { width: 320px; height: 220px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="envelope-wrapper" id="envelope">
-    <div class="instruction">Click to Open</div>
-    
-    <div class="letter">
-      <div class="logo">OKNA</div>
-      
-      <div class="content-grid">
-        <div class="text-side">
-          <div class="tagline">Exclusive Experience Center Invite</div>
-          <h1 class="main-title">The Art of <br>Precision.</h1>
-          <p class="description">
-            We cordially invite you to experience the fusion of architectural vision and German engineering. Join Ar. Deeksha and Ar. Harsimran for an exclusive walkthrough of our new collection.
-          </p>
-          
-          <div class="details">
-            <div class="detail-item">
-              <div class="label">Date</div>
-              <div class="value">Tuesday, May 12, 2026</div>
-            </div>
-            <div class="detail-item">
-              <div class="label">Time</div>
-              <div class="value">12:30 PM — Lunch Experience</div>
-            </div>
-            <div class="detail-item">
-              <div class="label">Location</div>
-              <div class="value">Sector 82, JLPL Industrial Area, SAS Nagar</div>
-            </div>
-          </div>
-
-          <a href="https://maps.google.com" target="_blank" class="btn">Experience OKNA</a>
-        </div>
-        
-        <div class="image-side">
-           <img src="https://images.unsplash.com/photo-1600607687940-4e524cb35a07?q=80&w=1200&auto=format&fit=crop" alt="Architecture">
-        </div>
+  <div class="envelope-container" id="envelopeWrapper">
+    <div class="envelope">
+      <div class="envelope-flap" id="flap"></div>
+      <div class="seal">OKNA</div>
+      <div class="envelope-front">
+        <div style="margin-top: 80px; letter-spacing: 5px; font-size: 10px; color: #999; text-transform: uppercase;">Open Invitation</div>
       </div>
     </div>
   </div>
 
+  <div class="invite-page" id="invitePage">
+    <div class="brand-header">OKNA</div>
+
+    <section class="hero">
+      <div class="hero-text">
+        <div class="section-title">The Experience Center</div>
+        <h1 class="main-heading">Where Vision <br>Meets Reality.</h1>
+        <p style="font-size: 18px; line-height: 1.8; color: #444; font-family: 'Cormorant Garamond', serif; font-style: italic;">
+          Architecture is not just seen; it is felt. Ar. Deeksha and Ar. Harsimran invite you to a private viewing of the OKNA System collection.
+        </p>
+      </div>
+      <div class="hero-image"></div>
+    </section>
+
+    <section class="info-grid">
+      <div class="info-card">
+        <h3>German Precision</h3>
+        <p>Every OKNA system is engineered with rigorous standards. Feel the effortless glide of our sliding systems and the acoustic perfection of our multi-chambered profiles.</p>
+      </div>
+      <div class="info-card">
+        <h3>Tactile Luxury</h3>
+        <p>We believe in the "Touch & Feel" philosophy. Our experience center allows you to operate full-scale installations, testing the weight, the seal, and the seamless finish of our hardware.</p>
+      </div>
+      <div class="info-card">
+        <h3>Design Dialogue</h3>
+        <p>This is more than a showroom; it is a space for architects and clients to collaborate. Discover how our ultra-slim profiles maximize your panoramic views without compromising thermal efficiency.</p>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="section-title" style="color: #666;">Private Gathering</div>
+      <h2 class="cta-heading">Join us for Lunch & Design</h2>
+      <p style="margin-bottom: 50px; opacity: 0.7;">May 12, 2026 • 12:30 PM onwards</p>
+      <a href="https://maps.google.com" target="_blank" class="btn-luxury">View Venue Location</a>
+    </section>
+
+    <div class="venue-details">
+      <div>OKNA System Windows</div>
+      <div>Sector 82, JLPL Industrial Area</div>
+      <div>SAS Nagar, Punjab</div>
+    </div>
+  </div>
+
   <script>
-    const envelope = document.getElementById('envelope');
+    const envelope = document.getElementById('envelopeWrapper');
+    const flap = document.getElementById('flap');
+    const page = document.getElementById('invitePage');
+
     envelope.addEventListener('click', () => {
-      envelope.classList.add('open');
-      document.querySelector('.instruction').style.display = 'none';
+      // 1. Open the flap
+      flap.classList.add('opened-flap');
+      
+      // 2. Wait slightly, then hide envelope and show page
+      setTimeout(() => {
+        envelope.classList.add('opened-envelope');
+        page.classList.add('show-page');
+        document.body.style.backgroundColor = "white";
+      }, 600);
     });
   </script>
 
